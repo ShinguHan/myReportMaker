@@ -6,11 +6,11 @@ import json
 
 
 # 복구 필요
-# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-#     path_sample_root = '\\\\192.168.110.45\\라인컴퓨터\\ReportAutomation'
-# else:
-#     path_sample_root = 'E:\\라인컴퓨터\\Samples'
-path_sample_root = 'E:\\라인컴퓨터\\Samples'
+if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+    path_sample_root = '\\\\192.168.110.45\\라인컴퓨터\\ReportAutomation'
+else:
+    path_sample_root = 'E:\\라인컴퓨터\\Samples'
+    
 path_sample_option = os.path.join(path_sample_root, 'options.json')
 
 def read_options():  
@@ -40,12 +40,11 @@ new_open_cvd_lists = ['OPEN','CVD']
 new_normal_com_lists = (comInfo["NEW_NORMAL"]).split(',') if "NEW_NORMAL" in comInfo else ['성산','아성']
 
 # 복구 필요
-# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-#     path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
-# else:
-#     path_root = 'E:\\라인컴퓨터\\20'
+if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+    path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
+else:
+    path_root = 'E:\\라인컴퓨터\\20'
 
-path_root = 'E:\\라인컴퓨터\\20'
 
 path_year = '년'
 path_month = '월'
@@ -79,12 +78,10 @@ path_new_vision_2 = '월'
 path_new_vision_3 = '일'
 
 #복구 필요
-# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-#     path_save_root = '\\\\192.168.110.45\\01. 세정팀) 성적서\\20'
-# else:
-#     path_save_root = 'E:\\01. 세정팀) 성적서\\20'
-
-path_save_root = 'E:\\01. 세정팀) 성적서\\20'
+if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+    path_save_root = '\\\\192.168.110.45\\01. 세정팀) 성적서\\20'
+else:
+    path_save_root = 'E:\\01. 세정팀) 성적서\\20'
 
 path_year = '년'
 path_month = '월'
