@@ -1,24 +1,28 @@
 import os
 import tkinter.messagebox as msgbox
-import time
-import pathlib
+import json
 
 # 성적서 작성 템플릿 경로 및 파일 명
 
-# path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
 
-start = time.time()
+# 복구 필요
+# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+#     path_sample_root = '\\\\192.168.110.45\\라인컴퓨터\\ReportAutomation'
+# else:
+#     path_sample_root = 'E:\\라인컴퓨터\\Samples'
+path_sample_root = 'E:\\라인컴퓨터\\Samples'
+path_sample_option = os.path.join(path_sample_root, 'options.json')
 
-print(pathlib.Path('\\\\192.168.110.45\라인컴퓨터').exists())
+def read_options():  
+    # Opening JSON file
+    try:
+        with open(path_sample_option, encoding='UTF-8') as file:
+            data = json.load(file)
+        
+        return data
+    except:
+        msgbox.showerror('에러',f'다음 경로에 options.json 파일이 없습니다.\n경로:{path_sample_option}') 
 
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_sample_root = '\\\\192.168.110.45\\라인컴퓨터\\ReportAutomation'
-else:
-    path_sample_root = 'E:\\라인컴퓨터\\Samples'
-    
-end = time.time()
-
-print("시간",end-start)
     
 path_sample_files = ['sample_depo_A3_9F.pptx',    # 증착 A3
                     'sample_depo_A4.pptx',        # 증착 A4
@@ -28,30 +32,20 @@ path_sample_files = ['sample_depo_A3_9F.pptx',    # 증착 A3
                     'sample_new_open_A4.pptx',    # 신규 오픈 A4(세우, 풍원, 핌스)
                     'sample_new_cvd_A3.pptx',     # 신규 CVD A3(세우, 풍원, 핌스)
                     'sample_new_cvd_A4.pptx']     # 신규 CVD A4(세우, 풍원, 핌스)
-new_open_cvd_com_lists = ['핌스','세우','풍원']
+
+comInfo = read_options()
+
+new_open_cvd_com_lists = comInfo["NEW_OPEN_CVD"].split(',') if "NEW_OPEN_CVD" in comInfo else ['핌스','세우','풍원']
 new_open_cvd_lists = ['OPEN','CVD']
-new_normal_com_lists = ['성산','아성']
-path_sample_option = os.path.join(path_sample_root, 'options.json')
+new_normal_com_lists = (comInfo["NEW_NORMAL"]).split(',') if "NEW_NORMAL" in comInfo else ['성산','아성']
 
-                                    # ^6^    5    4   3  ^2^   1      ^0^ 증착 1,2
-# \\192.168.110.45\라인컴퓨터\2022년\1. 증착\목시\10월\13일\A3\세정후\아이디
+# 복구 필요
+# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+#     path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
+# else:
+#     path_root = 'E:\\라인컴퓨터\\20'
 
-                                    #  ^7^   6    5    4    3  ^2^   1     ^0^
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\목시\10월\13일\아성\A4\세정후\아이디 신규 노멀 3,4
-
-                 #                      ^8^   7   6    5    4  ^3^  ^2^    1        ^0^
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\목시\10월\11일\핌스\A3\OPEN\세정후\L2AD238X4 오픈 신규 open 5,6
-
-                 #                      ^8^   7   6    5    4  ^3^  ^2^    1        ^0^
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\목시\10월\11일\핌스\A3\CVD\세정후\L2AD238X4 CVD 신규 CVD 7
-
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\비전\10월\11일\핌스\L2AD238X4\hole
-# 핌스,풍원,세우,성산,아성
-
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
-else:
-    path_root = 'E:\\라인컴퓨터\\20'
+path_root = 'E:\\라인컴퓨터\\20'
 
 path_year = '년'
 path_month = '월'
@@ -84,16 +78,22 @@ path_new_vision_1 = '년\\2. 신규\\비전'
 path_new_vision_2 = '월'
 path_new_vision_3 = '일'
 
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_save_root = '\\\\192.168.110.45\\01. 세정팀) 성적서\\20'
-else:
-    path_save_root = 'E:\\01. 세정팀) 성적서\\20'
+#복구 필요
+# if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
+#     path_save_root = '\\\\192.168.110.45\\01. 세정팀) 성적서\\20'
+# else:
+#     path_save_root = 'E:\\01. 세정팀) 성적서\\20'
+
+path_save_root = 'E:\\01. 세정팀) 성적서\\20'
 
 path_year = '년'
 path_month = '월'
 path_day = '일'
 path_save_depo = '1. 증착'
 path_save_new = '2. 신규'
+
+
+
 
 def get_path_save_depo(year, month, day, detail, filetype):
     tempPath = os.path.join(path_save_root+year+path_year,path_save_depo,month+path_month,day+path_day, detail, filetype)
@@ -122,14 +122,9 @@ def get_path_save_new_openOrcvd(year, month, day, company, detail, openOrcvd, fi
 def get_path_new_vision(year, month, day, company, id, detail):
     return os.path.join(path_root + year+path_new_vision_1,month + path_new_vision_2,day + path_new_vision_3,company,id, detail)
     
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\비전\10월\11일\핌스\L2AD238X4\hole
-# \\192.168.110.45\라인컴퓨터\2022년\2. 신규\목시\10월\11일\핌스\A3\OPEN\세정후\L2AD238X4 오픈
-
-# +new_open_cvd_com_lists = ['핌스','세우','풍원']
 path_new_eye_open_cvd_A3 = '\\A3\\'
 path_new_eye_open_cvd_A4 = '\\A4\\'
 
-# +new_open_cvd_lists = ['OPEN','CVD']
 path_new_eye_open_cvd_after = '\\세정후'
 
 path_save_ppt = path_sample_root

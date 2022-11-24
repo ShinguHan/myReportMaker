@@ -105,8 +105,6 @@ def start():
         
         global stop_command    
         stop_command = False
-        print('start:stop_command = False')
-        
         
         idx = 0
         start = time.time()
@@ -299,49 +297,62 @@ btn_stop.pack(side="right", padx=5, pady=5)
 btn_start = Button(frame_run, padx=5, pady=5, text="시작", width=12, command=start)
 btn_start.pack(side="right", padx=5, pady=5)
 
-data = {}
-def save(lists):
+data = info.read_options()
+
+def save(saveContents):
     values = []
     index = 0
-    for chkbox in lists:
+    for chkbox in saveContents["SIDE"]:
         if chkbox.get() == 1:
             values.append(index)
         index += 1
-        
-    print(values)
-    data['side_picture_except_index'] = values    
-    save_options(data)
     
-def read_options():  
-    # Opening JSON file
-    try:
-        with open(info.path_sample_option) as file:
-            data = json.load(file)
-        
-        return data
-    except:
-        msgbox.showerror('에러',f'다음 경로에 options.json 파일이 없습니다.\n경로:{info.path_sample_option}')
-
-data = read_options()
+    data = {}    
+    data['side_picture_except_index'] = values   
+    data["NEW_NORMAL"] =  saveContents["NEW_NORMAL"].get()
+    data["NEW_OPEN_CVD"] = saveContents["NEW_OPEN_CVD"].get()
+    save_options(data)
         
 def save_options(data):
-    with open(info.path_sample_option, "w") as file:
-        json.dump(data, file)
+    with open(info.path_sample_option, "w", encoding="utf-8") as file:
+        json.dump(data, file, ensure_ascii=False)
         
 
+saveContents = {}
 
 def setting_options():
     popup= Toplevel(root)
-    popup.geometry("750x250")
+    popup.geometry("750x300")
     popup.title("세부 옵션 설정")
     
-    frame_option = LabelFrame(popup, text="옵션")
+    frame_option = LabelFrame(popup, text="옵션 1")
     frame_option.pack(padx=5, pady=5, ipady=5, fill='x')
 
+    
     # 1. [Side]제외 사진 선택 옵션
-    lbl_side = Label(frame_option, text="[Side]제외 사진 선택 : ")
+    lbl_side = Label(frame_option, text="[Side] 제외 사진 선택 : ")
     lbl_side.pack(side="left", padx=5, pady=5)
 
+
+    frame_option_2 = LabelFrame(popup, text="옵션 2")
+    frame_option_2.pack(padx=5, pady=10, ipady=5, fill='x')
+    
+    lbl_new_normal = Label(frame_option_2, text="[신규 업체명 - NORMAL] : ")
+    lbl_new_normal.pack(side="left",padx=5,pady=5)
+    e1 = Entry(frame_option_2, width = 100)
+    e1.pack(side="left", padx=5, pady=5)
+    e1.insert(0, data["NEW_NORMAL"] if "NEW_NORMAL" in data else "업체명을 입력하세요. (예:성산,아성)" )
+    
+    
+    frame_option_3 = LabelFrame(popup, text="옵션 3")
+    frame_option_3.pack(padx=5, pady=10, ipady=5, fill='x')
+    
+    lbl_new_open_cvd = Label(frame_option_3, text="[신규 업체명 - OPEN,CVD] : ")
+    lbl_new_open_cvd.pack(side="left",padx=5,pady=5)
+    e2 = Entry(frame_option_3, width = 100)
+    e2.pack(side="left", padx=5, pady=5)
+    e2.insert(0, data["NEW_OPEN_CVD"] if "NEW_OPEN_CVD" in data else "업체명을 입력하세요. (예:세우,풍원,핌스)")
+    
     max_pic = 14
     chkvars = [] 
     chkboxes = []
@@ -350,10 +361,14 @@ def setting_options():
         chkboxes.append(Checkbutton(frame_option, text=str(i+1), variable=chkvars[i]))
         chkboxes[i].pack(side="left", padx=3)
         
-        global data
+        # global data
         if (i) in data['side_picture_except_index']:
             chkboxes[i].select()
-
+            
+    
+    saveContents["NEW_NORMAL"] = e1
+    saveContents["NEW_OPEN_CVD"] = e2
+    saveContents["SIDE"] = chkvars
     
     # 버튼s
     frame_btn = Frame(popup)
@@ -362,7 +377,7 @@ def setting_options():
     btn_close = Button(frame_btn, padx=5, pady=5, text="닫기", width=12, command=popup.destroy)
     btn_close.pack(side="right", padx=5, pady=5)
     
-    btn_save = Button(frame_btn, padx=5, pady=5, text="저장", width=12, command=lambda: save(chkvars))
+    btn_save = Button(frame_btn, padx=5, pady=5, text="저장", width=12, command=lambda: save(saveContents))
     btn_save.pack(side="right", padx=5, pady=5)
        
 

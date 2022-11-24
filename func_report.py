@@ -9,7 +9,8 @@ import tkinter.messagebox as msgbox
 import func_pdf as pdf
 import zipfile
 import shutil
-
+ 
+comInfo = info.read_options()
 
 # 성적서 번호, 입고, 완료 날짜
 def Update_BasicInfo(prs, year, month, day, slideIndex, shName, company = None):
@@ -203,12 +204,9 @@ def change_pptPicture_size(pptFrom):
         if file.endswith('.jpeg') or file.endswith('.jpg'):
             file_path = os.path.join(detail_path,file)
             img = Image.open(file_path)
-            print('old size',img.size)
-            print('filename',file)
             
             ratio = 0.2 # <-원본 유지 비율
             new_img = img.resize((int(img.size[0]*ratio), (int(img.size[1]*ratio))))
-            print('new size',new_img.size)
             new_img.save(file_path)
 
 
@@ -242,7 +240,6 @@ def report_depo_A3(prs, workpath, year, month, day, id, final, except_list):
     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A3(id, year, month, day),slideIndex=3, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_depo(year, month, day, 'A3', 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -271,7 +268,6 @@ def report_depo_A4(prs, workpath, year, month, day, id, final, except_list):
     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A4(id, year, month, day),slideIndex=4, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
     pathppt = info.get_path_save_depo(year, month, day, 'A4', 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -293,7 +289,6 @@ def report_new_normal(prs, workpath, year, month, day, id, company, site, final,
                         columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = True, startIndex=0)
     
     pathppt = info.get_path_save_new(year, month, day, company, site, 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -320,7 +315,6 @@ def report_new_open_A3(prs, workpath, year, month, day, id, company, site, final
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=3, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -349,7 +343,6 @@ def report_new_open_A4(prs, workpath, year, month, day, id, company, site, final
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=4, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -374,7 +367,6 @@ def report_new_cvd(prs, workpath, year, month, day, id, company, site, final, ex
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'inspect'),slideIndex=3, shName='tb_badsector',
                         columns=3,maxPicCnt=15, whiteRatio=0.1,temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'CVD', 'PPT') + '\\' + maskid + '.pptx'
-    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -416,7 +408,8 @@ def extract_type(path):
             site = 'A4'
         
     elif temp_list[i_new] == "2. 신규" or temp_list[i_new-1] == "2. 신규":
-        if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
+        # if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
+        if temp_list[i_new_normal_com] in comInfo["NEW_NORMAL"].split(','):
             if temp_list[i_new_normal_des] == 'A3':
                 type = 'new_normal_A3'
                 company = temp_list[i_new_normal_com]  
@@ -428,7 +421,8 @@ def extract_type(path):
                 site = 'A4'
                 
                 
-        elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
+        # elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
+        elif temp_list[i_new_open_cvd_com] in comInfo["NEW_OPEN_CVD"].split(','):
             if temp_list[i_new_open_cvd_type] == 'OPEN':
                 if temp_list[i_new_open_cvd_des] == 'A3':
                     type = 'new_open_A3'
@@ -486,14 +480,16 @@ def extract_typeCount(temp_lists):
                 typeCntlst[1] += 1
             
         elif temp_list[i_new] == "2. 신규" or temp_list[i_new-1] == "2. 신규":
-            if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
+            # if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
+            if temp_list[i_new_normal_com] in comInfo["NEW_NORMAL"].split(','):
                 if temp_list[i_new_normal_des] == 'A3':
                     typeCntlst[2] += 1 
                     
                 elif temp_list[i_new_normal_des] == 'A4':
                     typeCntlst[3] += 1
                     
-            elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
+            # elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
+            elif temp_list[i_new_open_cvd_com] in comInfo["NEW_OPEN_CVD"].split(','):
                 if temp_list[i_new_open_cvd_type] == 'OPEN':
                     if temp_list[i_new_open_cvd_des] == 'A3':
                         typeCntlst[4] += 1             
