@@ -360,6 +360,30 @@ def report_new_normal(prs, workpath, year, month, day, id, company, site, final,
     # PDF 변환    
     pathpdf = info.get_path_save_new(year, month, day, company, site, 'PDF')
     pdf.save_pdf(pathppt, pathpdf, maskid, final)
+
+def report_new_new_normal(prs, workpath, year, month, day, id, company, site, final, except_list):
+
+    maskid = id
+    
+    Update_BasicInfo(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_basicInfo', company = company)
+    Update_MaskID(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_maskID', id=maskid)
+    Insert_Pictures(prs=prs, path=workpath ,slideIndex=1, shName='tb_front',
+                        columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = False, startIndex=0)
+    Insert_Pictures(prs=prs, path=workpath ,slideIndex=2, shName='tb_back',
+                        columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = False, startIndex=1)
+    
+    pathppt = info.get_path_save_new(year, month, day, company, site, 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
+    prs.save(pathppt)
+    
+    # PDF 변환 준비 (사진 용량 줄이기)
+    pathppt = info.get_path_save_depo(year, month, day, 'A3', 'PDF') + '\\' + maskid + '.pptx'
+    prs.save(pathppt)
+    change_pptPicture_size(pathppt)
+    
+    # PDF 변환    
+    pathpdf = info.get_path_save_new(year, month, day, company, site, 'PDF')
+    pdf.save_pdf(pathppt, pathpdf, maskid, final)
     
 def report_new_open_A3(prs, workpath, year, month, day, id, company, site, final, except_list):
 
@@ -508,7 +532,13 @@ def extract_type(path):
         
     elif temp_list[i_new] == "2. 신규" or temp_list[i_new-1] == "2. 신규":
         # if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
-        if temp_list[i_new_normal_com] in comInfo["NEW_NORMAL"].split(','):
+        if temp_list[i_new_normal_com] in comInfo["NEW_NEW_NORMAL"].split(','):
+            if temp_list[i_new_normal_des] == 'A6':
+                type = 'new_new_normal_A6'
+                company = temp_list[i_new_normal_com]    
+                site = 'A6'
+
+        elif temp_list[i_new_normal_com] in comInfo["NEW_NORMAL"].split(','):
             if temp_list[i_new_normal_des] == 'A3':
                 type = 'new_normal_A3'
                 company = temp_list[i_new_normal_com]  
@@ -650,6 +680,8 @@ def make_report(prs, type, year, month, day, id, company, site, workpath, final,
         report_depo_A6(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, final=final, except_list=except_list)
     elif type == 'new_normal_A3' or type == 'new_normal_A4' or type == 'new_normal_A6':         
         report_new_normal(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
+    elif type == 'new_new_normal_A6':         
+        report_new_new_normal(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
     elif type == 'new_open_A3':        
         report_new_open_A3(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
     elif type == 'new_open_A4':

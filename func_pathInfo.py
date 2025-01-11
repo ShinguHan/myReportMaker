@@ -35,7 +35,8 @@ path_sample_files = ['sample_depo_A3_9F.pptx',    # 증착 A3
                     'sample_depo_A6.pptx',        # 증착 A6
                     'sample_new_normal_A6.pptx',  # 신규 A6(성산, 아성)          
                     'sample_new_open_A6.pptx',    # 신규 오픈 A6(세우, 풍원, 핌스)
-                    'sample_new_cvd_A6.pptx']     # 신규 CVD A6(세우, 풍원, 핌스)
+                    'sample_new_cvd_A6.pptx',     # 신규 CVD A6(세우, 풍원, 핌스)
+                    'sample_new_normal_NA6.pptx']
 
 
 
@@ -46,6 +47,7 @@ comInfo = read_options()
 new_open_cvd_com_lists = comInfo["NEW_OPEN_CVD"].split(',') if "NEW_OPEN_CVD" in comInfo else ['핌스','세우','풍원']
 new_open_cvd_lists = ['OPEN','CVD']
 new_normal_com_lists = (comInfo["NEW_NORMAL"]).split(',') if "NEW_NORMAL" in comInfo else ['성산','아성']
+new_new_normal_com_lists = (comInfo["NEW_NEW_NORMAL"]).split(',') if "NEW_NEW_NORMAL" in comInfo else ['핌스']
 
 # 복구 필요
 if os.path.exists('\\\\192.168.122.102\\라인컴퓨터'):
@@ -187,7 +189,8 @@ def get_working_id_lists(year, month, day):
         temp_lists = search_files(path)
         if temp_lists != None:    
             for file in temp_lists:
-                lists.append(path + '\\' + file)
+                lists.append(path + '\\' + file)                
+
                 
     # 신규 (풍원, 세우, 핌스) A3
     for com in new_open_cvd_com_lists:
@@ -215,6 +218,12 @@ def get_working_id_lists(year, month, day):
             if temp_lists != None:    
                 for file in temp_lists:
                     lists.append(path + '\\' + file)
+
+ 
+
+
+
+                    
     
     return lists
     
@@ -339,6 +348,9 @@ def get_path_sample(cat):
         path = path_sample_root + '\\templeteSamples\\' + path_sample_files[10]
     elif cat == 'new_cvd_A6':
         path = path_sample_root + '\\templeteSamples\\' + path_sample_files[11]
+    elif cat == 'new_new_normal_A6':
+        path = path_sample_root + '\\templeteSamples\\' + path_sample_files[12]
+
     else:
         msgbox.msgbox.showerror("에러", "잘못된 샘플 목록을 입력하였습니다")    
         

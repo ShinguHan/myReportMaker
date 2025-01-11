@@ -336,6 +336,7 @@ def save(saveContents):
     data['side_picture_except_index'] = values   
     data["NEW_NORMAL"] =  saveContents["NEW_NORMAL"].get()
     data["NEW_OPEN_CVD"] = saveContents["NEW_OPEN_CVD"].get()
+    data["NEW_NEW_NORMAL"] = saveContents["NEW_NEW_NORMAL"].get()
     save_options(data)
         
 def save_options(data):
@@ -347,7 +348,7 @@ saveContents = {}
 
 def setting_options():
     popup= Toplevel(root)
-    popup.geometry("750x300")
+    popup.geometry("800x400")
     popup.title("세부 옵션 설정")
     
     frame_option = LabelFrame(popup, text="옵션 1")
@@ -377,6 +378,15 @@ def setting_options():
     e2 = Entry(frame_option_3, width = 100)
     e2.pack(side="left", padx=5, pady=5)
     e2.insert(0, data["NEW_OPEN_CVD"] if "NEW_OPEN_CVD" in data else "업체명을 입력하세요. (예:세우,풍원,핌스)")
+
+    frame_option_4 = LabelFrame(popup, text="옵션 4")
+    frame_option_4.pack(padx=5, pady=10, ipady=5, fill='x')
+    
+    lbl_new_new_normal = Label(frame_option_4, text="[신규 업체명 - NEW NORMAL] : ")
+    lbl_new_new_normal.pack(side="left",padx=5,pady=5)
+    e3 = Entry(frame_option_4, width = 100)
+    e3.pack(side="left", padx=5, pady=5)
+    e3.insert(0, data["NEW_NEW_NORMAL"] if "NEW_NEW_NORMAL" in data else "업체명을 입력하세요. (예:세우,풍원,핌스)")
     
     max_pic = 14
     chkvars = [] 
@@ -393,6 +403,7 @@ def setting_options():
     
     saveContents["NEW_NORMAL"] = e1
     saveContents["NEW_OPEN_CVD"] = e2
+    saveContents["NEW_NEW_NORMAL"] = e3
     saveContents["SIDE"] = chkvars
     
     # 버튼s
