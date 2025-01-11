@@ -204,9 +204,12 @@ def change_pptPicture_size(pptFrom):
         if file.endswith('.jpeg') or file.endswith('.jpg'):
             file_path = os.path.join(detail_path,file)
             img = Image.open(file_path)
+            # print('old size',img.size)
+            # print('filename',file)
             
             ratio = 0.2 # <-원본 유지 비율
             new_img = img.resize((int(img.size[0]*ratio), (int(img.size[1]*ratio))))
+            # print('new size',new_img.size)
             new_img.save(file_path)
 
 
@@ -240,6 +243,7 @@ def report_depo_A3(prs, workpath, year, month, day, id, final, except_list):
     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A3(id, year, month, day),slideIndex=3, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_depo(year, month, day, 'A3', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -268,6 +272,7 @@ def report_depo_A4(prs, workpath, year, month, day, id, final, except_list):
     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A4(id, year, month, day),slideIndex=4, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
     pathppt = info.get_path_save_depo(year, month, day, 'A4', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -278,7 +283,62 @@ def report_depo_A4(prs, workpath, year, month, day, id, final, except_list):
     # PDF 변환    
     pathpdf = info.get_path_save_depo(year, month, day, 'A4', 'PDF')
     pdf.save_pdf(pathppt, pathpdf, maskid, final)
+        
+# def report_depo_A6(prs, workpath, year, month, day, id, final, except_list):
+
+#     maskid = id
     
+#     Update_BasicInfo(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_basicInfo')
+#     Update_MaskID(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_maskID', id=maskid)
+#     Insert_Pictures(prs=prs, path=info.get_path_front(workpath) ,slideIndex=1, shName='tb_front',
+#                         columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = True, startIndex=1)
+#     Insert_Pictures(prs=prs, path=info.get_path_side(workpath),slideIndex=2, shName='tb_side',
+#                         columns=3,maxPicCnt=12, whiteRatio=0.2, temp=True, rot = False, startIndex=1, except_list=except_list)
+#     Insert_Pictures(prs=prs, path=info.get_path_inspect_depo_vision_A6(id, year, month, day),slideIndex=3, shName='tb_badsector',
+#                         columns=3,maxPicCnt=12, whiteRatio=0.1,temp=False, rot = False, startIndex=0)
+#     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A6(id, year, month, day),slideIndex=4, shName='tb_alignkey_high',
+#                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
+#     Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A6(id, year, month, day),slideIndex=4, shName='tb_alignkey_low',
+#                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
+#     pathppt = info.get_path_save_depo(year, month, day, 'A6', 'PPT') + '\\' + maskid + '.pptx'
+#     print(pathppt)    
+#     prs.save(pathppt)
+    
+#     # PDF 변환 준비 (사진 용량 줄이기)
+#     pathppt = info.get_path_save_depo(year, month, day, 'A3', 'PDF') + '\\' + maskid + '.pptx'
+#     prs.save(pathppt)
+#     change_pptPicture_size(pathppt)
+    
+#     # PDF 변환    
+#     pathpdf = info.get_path_save_depo(year, month, day, 'A6', 'PDF')
+#     pdf.save_pdf(pathppt, pathpdf, maskid, final)
+    
+def report_depo_A6(prs, workpath, year, month, day, id, final, except_list):
+    maskid = id
+    
+    Update_BasicInfo(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_basicInfo')
+    Update_MaskID(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_maskID', id=maskid)
+    Insert_Pictures(prs=prs, path=info.get_path_front(workpath) ,slideIndex=1, shName='tb_front',
+                        columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = True, startIndex=0)
+    Insert_Pictures(prs=prs, path=info.get_path_side(workpath),slideIndex=2, shName='tb_side',
+                        columns=3,maxPicCnt=12, whiteRatio=0.2, temp=True, rot = False, startIndex=1, except_list=except_list)
+    Insert_Pictures(prs=prs, path=info.get_path_inspect_depo_vision_A6(id, year, month, day),slideIndex=3, shName='tb_badsector',
+                        columns=3,maxPicCnt=6, whiteRatio=0.1,temp=False, rot = False, startIndex=0)
+    Insert_Pictures(prs=prs, path=info.get_path_hole_depo_vision_A6(id, year, month, day),slideIndex=3, shName='tb_alignkey_low',
+                        columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
+    pathppt = info.get_path_save_depo(year, month, day, 'A6', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
+    prs.save(pathppt)
+    
+    # PDF 변환 준비 (사진 용량 줄이기)
+    pathppt = info.get_path_save_depo(year, month, day, 'A6', 'PDF') + '\\' + maskid + '.pptx'
+    prs.save(pathppt)
+    change_pptPicture_size(pathppt)
+    
+    # PDF 변환
+    pathpdf = info.get_path_save_depo(year, month, day, 'A6', 'PDF')
+    pdf.save_pdf(pathppt, pathpdf, maskid, final)
+
 def report_new_normal(prs, workpath, year, month, day, id, company, site, final, except_list):
 
     maskid = id
@@ -289,6 +349,7 @@ def report_new_normal(prs, workpath, year, month, day, id, company, site, final,
                         columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = True, startIndex=0)
     
     pathppt = info.get_path_save_new(year, month, day, company, site, 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -315,6 +376,7 @@ def report_new_open_A3(prs, workpath, year, month, day, id, company, site, final
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=3, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -343,6 +405,7 @@ def report_new_open_A4(prs, workpath, year, month, day, id, company, site, final
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=4, shName='tb_alignkey_low',
                         columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -353,6 +416,36 @@ def report_new_open_A4(prs, workpath, year, month, day, id, company, site, final
     # PDF 변환    
     pathpdf = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PDF')
     pdf.save_pdf(pathppt, pathpdf, maskid, final)
+    
+def report_new_open_A6(prs, workpath, year, month, day, id, company, site, final, except_list):
+
+    maskid = id
+    
+    Update_BasicInfo(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_basicInfo', company = company)
+    Update_MaskID(prs=prs, year=year, month=month, day=day, slideIndex=0, shName='tb_maskID', id=maskid)
+    Insert_Pictures(prs=prs, path=info.get_path_front(workpath) ,slideIndex=1, shName='tb_front',
+                        columns=1,maxPicCnt=1, whiteRatio=0.05, temp=True, rot = True, startIndex=1)
+    Insert_Pictures(prs=prs, path=info.get_path_side(workpath),slideIndex=2, shName='tb_side',
+                        columns=3,maxPicCnt=12, whiteRatio=0.2, temp=True, rot = False, startIndex=1, except_list=except_list)
+    Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'inspect'),slideIndex=3, shName='tb_badsector',
+                        columns=3,maxPicCnt=12, whiteRatio=0.1,temp=False, rot = False, startIndex=0)
+    Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=4, shName='tb_alignkey_high',
+                        columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=0)
+    Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'hole'),slideIndex=4, shName='tb_alignkey_low',
+                        columns=3,maxPicCnt=6, whiteRatio=0.1, temp=False, rot = False, startIndex=6)
+    pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
+    prs.save(pathppt)
+    
+    # PDF 변환 준비 (사진 용량 줄이기)
+    pathppt = info.get_path_save_depo(year, month, day, 'A3', 'PDF') + '\\' + maskid + '.pptx'
+    prs.save(pathppt)
+    change_pptPicture_size(pathppt)
+    
+    # PDF 변환    
+    pathpdf = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'OPEN', 'PDF')
+    pdf.save_pdf(pathppt, pathpdf, maskid, final)
+
     
 def report_new_cvd(prs, workpath, year, month, day, id, company, site, final, except_list):
 
@@ -367,6 +460,7 @@ def report_new_cvd(prs, workpath, year, month, day, id, company, site, final, ex
     Insert_Pictures(prs=prs, path=info.get_path_new_vision(year, month, day, company, id, 'inspect'),slideIndex=3, shName='tb_badsector',
                         columns=3,maxPicCnt=15, whiteRatio=0.1,temp=False, rot = False, startIndex=0)
     pathppt = info.get_path_save_new_openOrcvd(year, month, day, company, site, 'CVD', 'PPT') + '\\' + maskid + '.pptx'
+    print(pathppt)    
     prs.save(pathppt)
     
     # PDF 변환 준비 (사진 용량 줄이기)
@@ -406,6 +500,11 @@ def extract_type(path):
             type = 'depo_A4'                 
             company = None   
             site = 'A4'
+
+        elif temp_list[i_depo_des] == 'A6':
+            type = 'depo_A6'                 
+            company = None   
+            site = 'A6'
         
     elif temp_list[i_new] == "2. 신규" or temp_list[i_new-1] == "2. 신규":
         # if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
@@ -419,6 +518,11 @@ def extract_type(path):
                 type = 'new_normal_A4'
                 company = temp_list[i_new_normal_com]    
                 site = 'A4'
+
+            elif temp_list[i_new_normal_des] == 'A6':
+                type = 'new_normal_A6'
+                company = temp_list[i_new_normal_com]    
+                site = 'A6'
                 
                 
         # elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
@@ -433,6 +537,11 @@ def extract_type(path):
                     type = 'new_open_A4'
                     company = temp_list[i_new_open_cvd_com]
                     site = 'A4'
+
+                elif temp_list[i_new_open_cvd_des] == 'A6':
+                    type = 'new_open_A6'
+                    company = temp_list[i_new_open_cvd_com]
+                    site = 'A6'
                     
 
             elif temp_list[i_new_open_cvd_type] == 'CVD':
@@ -445,7 +554,11 @@ def extract_type(path):
                     type = 'new_cvd_A4'
                     company = temp_list[i_new_open_cvd_com]
                     site = 'A4'
-            
+                                
+                elif temp_list[i_new_open_cvd_des] == 'A6':
+                    type = 'new_cvd_A6'
+                    company = temp_list[i_new_open_cvd_com]
+                    site = 'A6'
             
     else:
         msgbox.showerror("에러","경로 정보가 잘못되었습니다.")
@@ -466,9 +579,10 @@ def extract_typeCount(temp_lists):
              
     
     # 0:증착 A3, 1: 증착 A4, 2: 신규(성산, 아성) A3, 3: 신규(성산, 아성) A4
-    # 4:신규 오픈(핌스, 세우, 풍원) A3, 5:신규 오픈(핌스, 세우, 풍원) A4, 6:신규 CVD(핌스, 세우, 풍원) A3, 5:신규 CVD(핌스, 세우, 풍원) A4
+    # 4:신규 오픈(핌스, 세우, 풍원) A3, 5:신규 오픈(핌스, 세우, 풍원) A4, 6:신규 CVD(핌스, 세우, 풍원) A3, 7:신규 CVD(핌스, 세우, 풍원) A4
+    # 8: 증착 A6, 9: 신규(성산, 아성) A6, 10:신규 오픈(핌스, 세우, 풍원) A6, 11:신규 CVD(핌스, 세우, 풍원) A6
     
-    typeCntlst = [0 for i in range(8)]
+    typeCntlst = [0 for i in range(12)]
     
     for temp_list in temp_lists:
         temp_list = temp_list.split('\\')  
@@ -478,7 +592,9 @@ def extract_typeCount(temp_lists):
                 typeCntlst[0] += 1
             elif temp_list[i_depo_des] == 'A4':
                 typeCntlst[1] += 1
-            
+            elif temp_list[i_depo_des] == 'A6':
+                typeCntlst[8] += 1
+
         elif temp_list[i_new] == "2. 신규" or temp_list[i_new-1] == "2. 신규":
             # if temp_list[i_new_normal_com] == '성산' or temp_list[i_new_normal_com] == '아성':
             if temp_list[i_new_normal_com] in comInfo["NEW_NORMAL"].split(','):
@@ -487,8 +603,11 @@ def extract_typeCount(temp_lists):
                     
                 elif temp_list[i_new_normal_des] == 'A4':
                     typeCntlst[3] += 1
+                                        
+                elif temp_list[i_new_normal_des] == 'A6':
+                    typeCntlst[9] += 1
                     
-            # elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스':
+            # elif temp_list[i_new_open_cvd_com] == '풍원' or temp_list[i_new_open_cvd_com] == '세우' or temp_list[i_new_open_cvd_com] == '핌스' or temp_list[i_new_open_cvd_com] == '오럼' or temp_list[i_new_open_cvd_com] == '위폼스':
             elif temp_list[i_new_open_cvd_com] in comInfo["NEW_OPEN_CVD"].split(','):
                 if temp_list[i_new_open_cvd_type] == 'OPEN':
                     if temp_list[i_new_open_cvd_des] == 'A3':
@@ -497,6 +616,9 @@ def extract_typeCount(temp_lists):
                         
                     elif temp_list[i_new_open_cvd_des] == 'A4':
                         typeCntlst[5] += 1
+                                                
+                    elif temp_list[i_new_open_cvd_des] == 'A6':
+                        typeCntlst[10] += 1
                         
 
                 elif temp_list[i_new_open_cvd_type] == 'CVD':
@@ -505,6 +627,9 @@ def extract_typeCount(temp_lists):
                         
                     elif temp_list[i_new_open_cvd_des] == 'A4':
                         typeCntlst[7] += 1
+                        
+                    elif temp_list[i_new_open_cvd_des] == 'A6':
+                        typeCntlst[11] += 1
     
     return typeCntlst
         
@@ -520,15 +645,19 @@ def make_report(prs, type, year, month, day, id, company, site, workpath, final,
     if type == 'depo_A3':
         report_depo_A3(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, final=final, except_list=except_list)
     elif type == 'depo_A4':        
-        report_depo_A4(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, final=final, except_list=except_list)
-    elif type == 'new_normal_A3' or type == 'new_normal_A4':        
+        report_depo_A4(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, final=final, except_list=except_list)        
+    elif type == 'depo_A6':        
+        report_depo_A6(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, final=final, except_list=except_list)
+    elif type == 'new_normal_A3' or type == 'new_normal_A4' or type == 'new_normal_A6':         
         report_new_normal(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
     elif type == 'new_open_A3':        
         report_new_open_A3(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
     elif type == 'new_open_A4':
         report_new_open_A4(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
-    elif type == 'new_cvd_A3' or type == 'new_cvd_A4':
+    elif type == 'new_open_A6':
+        report_new_open_A6(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
+    elif type == 'new_cvd_A3' or type == 'new_cvd_A4' or type == 'new_cvd_A6':
         report_new_cvd(prs=prs, workpath = workpath, year=year, month=month, day=day, id=id, company=company, site=site, final=final, except_list=except_list)
     else:
         msgbox.msgbox.showerror("에러", "잘못된 샘플 목록을 입력하였습니다")    
-
+        

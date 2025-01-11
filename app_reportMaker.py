@@ -27,7 +27,8 @@ def add_file():
     
     global g_year; 
     global g_month; 
-    global g_day;
+    global g_day
+    
     print(date)
     if sep_dot:
         g_year = date[0]
@@ -163,7 +164,7 @@ def update_count(objLists, cntLists):
 
 root = Tk()
 root.title("Report Maker v_0.1")
-root.geometry("700x850") # 가로 * 세로
+root.geometry("1000x850") # 가로 * 세로
 
 root.resizable(width=True, height=True) # x(너비), y(높이) 값 변경 불가 (창 크기 변경 불가)
 
@@ -199,58 +200,82 @@ lbl_f16 = Label(table_frame, text="Target", width=name_width, height=height+1, b
 lbl_f17 = Label(table_frame, text="Count", width=cnt_width, height=height+1, borderwidth=2, relief="ridge")
 lbl_f18 = Label(table_frame, text="Target", width=name_width, height=height+1, borderwidth=2, relief="ridge")
 lbl_f19 = Label(table_frame, text="Count", width=cnt_width, height=height+1, borderwidth=2, relief="ridge")
+lbl_f20 = Label(table_frame, text="Target", width=name_width, height=height+1, borderwidth=2, relief="ridge")
+lbl_f21 = Label(table_frame, text="Count", width=cnt_width, height=height+1, borderwidth=2, relief="ridge")
 lbl_f16.grid(row=0, column=0, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_f17.grid(row=0, column=1, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_f18.grid(row=0, column=2, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_f19.grid(row=0, column=3, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_f20.grid(row=0, column=4, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_f21.grid(row=0, column=5, sticky=N+E+W+S, padx=3, pady=pady)
 
 # clear 줄
 lbl_clear = Label(table_frame, text="증착 A3", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_equal = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_div = Label(table_frame, text="증착 A4", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_mul = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls1 = Label(table_frame, text="증착 A6", width=name_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls2 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_clear.grid(row=1, column=0, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_equal.grid(row=1, column=1, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_div.grid(row=1, column=2, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_mul.grid(row=1, column=3, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls1.grid(row=1, column=4, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls2.grid(row=1, column=5, sticky=N+E+W+S, padx=3, pady=pady)
 countLists.append(lbl_equal)
 countLists.append(lbl_mul)
+countLists.append(lbl_cls2)
 
 # 7 시작 줄
 lbl_7 = Label(table_frame, text="성산/아성 A3", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_8 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_9 = Label(table_frame, text="성산/아성 A4", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_sub = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls3 = Label(table_frame, text="성산/아성 A6", width=name_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls4 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_7.grid(row=2, column=0, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_8.grid(row=2, column=1, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_9.grid(row=2, column=2, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_sub.grid(row=2, column=3, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls3.grid(row=2, column=4, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls4.grid(row=2, column=5, sticky=N+E+W+S, padx=3, pady=pady)
 countLists.append(lbl_8)
 countLists.append(lbl_sub)
+countLists.append(lbl_cls4)
 
 # 4 시작 줄
 lbl_4 = Label(table_frame, text="OPEN A3", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_5 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_6 = Label(table_frame, text="OPEN A4", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_add = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls5 = Label(table_frame, text="OPEN A4", width=name_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls6 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_4.grid(row=3, column=0, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_5.grid(row=3, column=1, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_6.grid(row=3, column=2, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_add.grid(row=3, column=3, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls5.grid(row=3, column=4, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls6.grid(row=3, column=5, sticky=N+E+W+S, padx=3, pady=pady)
 countLists.append(lbl_5)
 countLists.append(lbl_add)
+countLists.append(lbl_cls6)
 
 # 1 시작 줄
 lbl_1 = Label(table_frame, text="CVD A3", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_2 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_3 = Label(table_frame, text="CVD A4", width=name_width, height=height, borderwidth=2, relief="ridge")
 lbl_enter = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls7 = Label(table_frame, text="CVD A6", width=name_width, height=height, borderwidth=2, relief="ridge")
+lbl_cls8 = Label(table_frame, text="0", width=cnt_width, height=height, borderwidth=2, relief="ridge")
 lbl_1.grid(row=4, column=0, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_2.grid(row=4, column=1, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_3.grid(row=4, column=2, sticky=N+E+W+S, padx=3, pady=pady)
 lbl_enter.grid(row=4, column=3, sticky=N+E+W+S, padx=3, pady=pady) # 현재 위치로부터 아래쪽으로 몇 줄을 더함
+lbl_cls7.grid(row=4, column=4, sticky=N+E+W+S, padx=3, pady=pady)
+lbl_cls8.grid(row=4, column=5, sticky=N+E+W+S, padx=3, pady=pady) # 현재 위치로부터 아래쪽으로 몇 줄을 더함
 countLists.append(lbl_2)
 countLists.append(lbl_enter)
+countLists.append(lbl_cls8)
 
 # 0 시작 줄
 lbl_0 = Label(table_frame, text="Total", width=name_width, height=height, borderwidth=2, relief="ridge")

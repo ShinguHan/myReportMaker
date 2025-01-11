@@ -6,8 +6,8 @@ import json
 
 
 # 복구 필요
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_sample_root = '\\\\192.168.110.45\\라인컴퓨터\\ReportAutomation'
+if os.path.exists('\\\\192.168.122.102\\라인컴퓨터'):
+    path_sample_root = '\\\\192.168.122.102\\라인컴퓨터\\ReportAutomation'
 else:
     path_sample_root = 'E:\\라인컴퓨터\\Samples'
     
@@ -31,7 +31,15 @@ path_sample_files = ['sample_depo_A3_9F.pptx',    # 증착 A3
                     'sample_new_open_A3.pptx',    # 신규 오픈 A3(세우, 풍원, 핌스)
                     'sample_new_open_A4.pptx',    # 신규 오픈 A4(세우, 풍원, 핌스)
                     'sample_new_cvd_A3.pptx',     # 신규 CVD A3(세우, 풍원, 핌스)
-                    'sample_new_cvd_A4.pptx']     # 신규 CVD A4(세우, 풍원, 핌스)
+                    'sample_new_cvd_A4.pptx',     # 신규 CVD A4(세우, 풍원, 핌스)
+                    'sample_depo_A6.pptx',        # 증착 A6
+                    'sample_new_normal_A6.pptx',  # 신규 A6(성산, 아성)          
+                    'sample_new_open_A6.pptx',    # 신규 오픈 A6(세우, 풍원, 핌스)
+                    'sample_new_cvd_A6.pptx']     # 신규 CVD A6(세우, 풍원, 핌스)
+
+
+
+
 
 comInfo = read_options()
 
@@ -40,8 +48,8 @@ new_open_cvd_lists = ['OPEN','CVD']
 new_normal_com_lists = (comInfo["NEW_NORMAL"]).split(',') if "NEW_NORMAL" in comInfo else ['성산','아성']
 
 # 복구 필요
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_root = '\\\\192.168.110.45\\라인컴퓨터\\20'
+if os.path.exists('\\\\192.168.122.102\\라인컴퓨터'):
+    path_root = '\\\\192.168.122.102\\라인컴퓨터\\20'
 else:
     path_root = 'E:\\라인컴퓨터\\20'
 
@@ -55,11 +63,13 @@ path_depo_eye_1 = '년\\1. 증착\\목시\\'
 path_depo_eye_2 = '월\\'
 path_depo_eye_A3 = '일\\A3\\세정후'
 path_depo_eye_A4 = '일\\A4\\세정후'
+path_depo_eye_A6 = '일\\A6\\세정후'
 
 path_depo_vision_1 = '년\\1. 증착\\비전\\'
 path_depo_vision_2 = '월\\'
 path_depo_vision_A3 = '일\\A3\\'
 path_depo_vision_A4 = '일\\A4\\'
+path_depo_vision_A6 = '일\\A6\\'
 
 front = '\\front'
 side = '\\side'
@@ -72,14 +82,15 @@ path_new_eye_3 = '일\\'
 # +성산, 아성
 path_new_eye_normal_A3 = '\\A3\\세정후'
 path_new_eye_normal_A4 = '\\A4\\세정후'
+path_new_eye_normal_A6 = '\\A6\\세정후'
 
 path_new_vision_1 = '년\\2. 신규\\비전'
 path_new_vision_2 = '월'
 path_new_vision_3 = '일'
 
 #복구 필요
-if os.path.exists('\\\\192.168.110.45\\라인컴퓨터'):
-    path_save_root = '\\\\192.168.110.45\\01. 세정팀) 성적서\\20'
+if os.path.exists('\\\\192.168.122.102\\라인컴퓨터'):
+    path_save_root = '\\\\192.168.122.102\\01. 세정팀) 성적서\\20'
 else:
     path_save_root = 'E:\\01. 세정팀) 성적서\\20'
 
@@ -121,6 +132,7 @@ def get_path_new_vision(year, month, day, company, id, detail):
     
 path_new_eye_open_cvd_A3 = '\\A3\\'
 path_new_eye_open_cvd_A4 = '\\A4\\'
+path_new_eye_open_cvd_A6 = '\\A6\\'
 
 path_new_eye_open_cvd_after = '\\세정후'
 
@@ -145,6 +157,13 @@ def get_working_id_lists(year, month, day):
     if temp_lists != None:    
         for file in temp_lists:
             lists.append(path + '\\' + file)
+
+    # 증착 A6
+    path = get_path_depo_eye_A6(year, month, day)
+    temp_lists = search_files(path)
+    if temp_lists != None:    
+        for file in temp_lists:
+            lists.append(path + '\\' + file)
     
     # 신규 (성산, 아성) A3            
     for com in new_normal_com_lists:
@@ -157,6 +176,14 @@ def get_working_id_lists(year, month, day):
     # 신규 (성산, 아성) A4
     for com in new_normal_com_lists:
         path = get_path_new_eye_A4(year, month, day, com)
+        temp_lists = search_files(path)
+        if temp_lists != None:    
+            for file in temp_lists:
+                lists.append(path + '\\' + file)
+
+    # 신규 (성산, 아성) A6
+    for com in new_normal_com_lists:
+        path = get_path_new_eye_A6(year, month, day, com)
         temp_lists = search_files(path)
         if temp_lists != None:    
             for file in temp_lists:
@@ -180,6 +207,15 @@ def get_working_id_lists(year, month, day):
                 for file in temp_lists:
                     lists.append(path + '\\' + file)
     
+        # 신규 (풍원, 세우, 핌스) A4
+    for com in new_open_cvd_com_lists:
+        for oc in new_open_cvd_lists:
+            path = get_path_new_open_cvd_A6(year, month, day, com, oc)
+            temp_lists = search_files(path)
+            if temp_lists != None:    
+                for file in temp_lists:
+                    lists.append(path + '\\' + file)
+    
     return lists
     
     
@@ -193,12 +229,20 @@ def get_path_depo_eye_A4(year, month, day):
     path = path_root + str(year) + path_depo_eye_1 + str(month) + path_depo_eye_2 + str(day) + path_depo_eye_A4
     return path
 
+def get_path_depo_eye_A6(year, month, day):
+    path = path_root + str(year) + path_depo_eye_1 + str(month) + path_depo_eye_2 + str(day) + path_depo_eye_A6
+    return path
+
 def get_path_new_eye_A3(year, month, day, company):
     path = path_root + str(year) + path_new_eye_1 + str(month) + path_new_eye_2 + str(day) + path_new_eye_3 + company + path_new_eye_normal_A3
     return path
 
 def get_path_new_eye_A4(year, month, day, company):
     path = path_root + str(year) + path_new_eye_1 + str(month) + path_new_eye_2 + str(day) + path_new_eye_3 + company + path_new_eye_normal_A4
+    return path
+
+def get_path_new_eye_A6(year, month, day, company):
+    path = path_root + str(year) + path_new_eye_1 + str(month) + path_new_eye_2 + str(day) + path_new_eye_3 + company + path_new_eye_normal_A6
     return path
 
 def get_path_new_open_cvd_A3(year, month, day, company, open_cvd):
@@ -209,6 +253,9 @@ def get_path_new_open_cvd_A4(year, month, day, company, open_cvd):
     path = path_root + str(year) + path_new_eye_1 + str(month) + path_new_eye_2 + str(day) + path_new_eye_3 + company + path_new_eye_open_cvd_A4 + open_cvd + path_new_eye_open_cvd_after
     return path
 
+def get_path_new_open_cvd_A6(year, month, day, company, open_cvd):
+    path = path_root + str(year) + path_new_eye_1 + str(month) + path_new_eye_2 + str(day) + path_new_eye_3 + company + path_new_eye_open_cvd_A6 + open_cvd + path_new_eye_open_cvd_after
+    return path
 
 def get_path_depo_vision_A3(year, month, day):
     path = path_root + str(year) + path_depo_vision_1 + str(month) + path_depo_vision_2 + str(day) + path_depo_vision_A3
@@ -216,6 +263,10 @@ def get_path_depo_vision_A3(year, month, day):
 
 def get_path_depo_vision_A4(year, month, day):
     path = path_root + str(year) + path_depo_vision_1 + str(month) + path_depo_vision_2 + str(day) + path_depo_vision_A4
+    return path
+
+def get_path_depo_vision_A6(year, month, day):
+    path = path_root + str(year) + path_depo_vision_1 + str(month) + path_depo_vision_2 + str(day) + path_depo_vision_A6
     return path
 
 def get_path_front(prefix):
@@ -234,12 +285,20 @@ def get_path_hole_depo_vision_A4(id, year, month, day):
     path = get_path_depo_vision_A4(year, month, day) + id + hole
     return path
 
+def get_path_hole_depo_vision_A6(id, year, month, day):
+    path = get_path_depo_vision_A6(year, month, day) + id + hole
+    return path
+
 def get_path_inspect_depo_vision_A3(id, year, month, day):
     path = get_path_depo_vision_A3(year, month, day) + id + inspect
     return path
 
 def get_path_inspect_depo_vision_A4(id, year, month, day):
     path = get_path_depo_vision_A4(year, month, day) + id + inspect
+    return path
+
+def get_path_inspect_depo_vision_A6(id, year, month, day):
+    path = get_path_depo_vision_A6(year, month, day) + id + inspect
     return path
 
 def get_path_sample(cat):
@@ -249,8 +308,13 @@ def get_path_sample(cat):
 #                     'sample_new_normal_A4.pptx',  # 신규 A4(성산, 아성)          
 #                     'sample_new_open_A3.pptx',    # 신규 오픈 A3(세우, 풍원, 핌스)
 #                     'sample_new_open_A4.pptx',    # 신규 오픈 A4(세우, 풍원, 핌스)
-#                     'sample_new_cvd_A3.pptx']  # 신규 CVD A3(세우, 풍원, 핌스)
-#                     'sample_new_cvd_A4.pptx']  # 신규 CVD A4(세우, 풍원, 핌스)
+#                     'sample_new_cvd_A3.pptx',     # 신규 CVD A3(세우, 풍원, 핌스)
+#                     'sample_new_cvd_A4.pptx',     # 신규 CVD A4(세우, 풍원, 핌스)
+#                     'sample_depo_A6.pptx',        # 증착 A6
+#                     'sample_new_normal_A6.pptx',  # 신규 A6(성산, 아성)          
+#                     'sample_new_open_A6.pptx',    # 신규 오픈 A6(세우, 풍원, 핌스)
+#                     'sample_new_cvd_A6.pptx']     # 신규 CVD A6(세우, 풍원, 핌스)
+
     if cat == 'depo_A3':
         path = path_sample_root + '\\templeteSamples\\' + path_sample_files[0]
     elif cat == 'depo_A4':        
@@ -267,6 +331,14 @@ def get_path_sample(cat):
         path = path_sample_root + '\\templeteSamples\\' + path_sample_files[6]
     elif cat == 'new_cvd_A4':
         path = path_sample_root + '\\templeteSamples\\' + path_sample_files[7]
+    elif cat == 'depo_A6':
+        path = path_sample_root + '\\templeteSamples\\' + path_sample_files[8]
+    elif cat == 'new_normal_A6':        
+        path = path_sample_root + '\\templeteSamples\\' + path_sample_files[9]
+    elif cat == 'new_open_A6':
+        path = path_sample_root + '\\templeteSamples\\' + path_sample_files[10]
+    elif cat == 'new_cvd_A6':
+        path = path_sample_root + '\\templeteSamples\\' + path_sample_files[11]
     else:
         msgbox.msgbox.showerror("에러", "잘못된 샘플 목록을 입력하였습니다")    
         
@@ -279,4 +351,3 @@ def search_files(path):
     except:
         pass
     
-
